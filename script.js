@@ -673,6 +673,19 @@ document.querySelectorAll('[data-slider]').forEach(slider => {
       if (!r.ok) r.text().then(t => console.error('Email send failed:', r.status, t));
     }).catch(err => console.error('Email fetch error:', err));
 
+    // Owner notification
+    fetch('/.netlify/functions/send-email', {
+      method: 'POST',
+      keepalive: true,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email:   'arizonamobilecardetailing@gmail.com',
+        name:    'AMCD Admin',
+        subject: `New Booking - ${name} | ${svc ? svc.name : ''} | ${dateLabel} at ${state.time}`,
+        htmlContent: `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;background:#f5f5f5;padding:20px;"><div style="max-width:600px;margin:0 auto;background:#fff;border-radius:8px;padding:32px;border:1px solid #ddd;"><h2 style="color:#C9A84C;margin:0 0 24px;">New Booking - Arizona Mobile Car Detailing</h2><table style="width:100%;border-collapse:collapse;"><tr><td style="padding:8px 0;color:#666;width:40%;">Name</td><td style="padding:8px 0;font-weight:600;">${name}</td></tr><tr><td style="padding:8px 0;color:#666;">Phone</td><td style="padding:8px 0;font-weight:600;">${phone}</td></tr><tr><td style="padding:8px 0;color:#666;">Email</td><td style="padding:8px 0;font-weight:600;">${email}</td></tr><tr><td style="padding:8px 0;color:#666;">Service</td><td style="padding:8px 0;font-weight:600;">${svc ? svc.name + ' — $' + svc.price : 'N/A'}</td></tr><tr><td style="padding:8px 0;color:#666;">Vehicle</td><td style="padding:8px 0;font-weight:600;">${vehicle || 'Not specified'}</td></tr><tr><td style="padding:8px 0;color:#666;">Add-Ons</td><td style="padding:8px 0;font-weight:600;">${addonsLabel}</td></tr><tr><td style="padding:8px 0;color:#666;">Date &amp; Time</td><td style="padding:8px 0;font-weight:600;">${dateLabel} at ${state.time}</td></tr><tr><td style="padding:8px 0;color:#666;">Address</td><td style="padding:8px 0;font-weight:600;">${location}</td></tr><tr><td style="padding:8px 0;color:#666;">Notes</td><td style="padding:8px 0;font-weight:600;">${notes || 'None'}</td></tr><tr><td style="padding:8px 0;color:#666;">Water Access</td><td style="padding:8px 0;font-weight:600;">${state.hasWater === true ? 'Yes' : state.hasWater === false ? 'No' : 'Not answered'}</td></tr><tr><td style="padding:8px 0;color:#666;">Power Access</td><td style="padding:8px 0;font-weight:600;">${state.hasPower === true ? 'Yes' : state.hasPower === false ? 'No' : 'Not answered'}</td></tr><tr style="border-top:2px solid #C9A84C;"><td style="padding:12px 0;color:#666;">Total</td><td style="padding:12px 0;font-weight:700;color:#C9A84C;font-size:18px;">$${getTotal()}</td></tr></table></div></body></html>`,
+      }),
+    }).catch(() => {});
+
     // Sync to admin portal via Supabase
     const _isoDate = `${state.date.getFullYear()}-${String(state.date.getMonth()+1).padStart(2,'0')}-${String(state.date.getDate()).padStart(2,'0')}`;
     const _tm = state.time.match(/(\d+):(\d+)\s*(AM|PM)/i);
