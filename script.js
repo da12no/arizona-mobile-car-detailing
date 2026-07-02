@@ -338,7 +338,7 @@ document.querySelectorAll('[data-slider]').forEach(slider => {
           'Authorization': 'Bearer sb_publishable_KTN_kS0acmCrDHKd0PV87g_OgYKL15s',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ p_business_id: 'AMCD_BUSINESS_ID_HERE', p_date: isoDate }),
+        body: JSON.stringify({ p_business_id: '45828f1d-8da7-493d-b16f-f29a602e5109', p_date: isoDate }),
       });
       const data = await res.json();
       (data || []).forEach(row => {
@@ -691,7 +691,7 @@ document.querySelectorAll('[data-slider]').forEach(slider => {
         'Prefer': 'return=minimal',
       },
       body: JSON.stringify({
-        business_id:      'AMCD_BUSINESS_ID_HERE',
+        business_id:      '45828f1d-8da7-493d-b16f-f29a602e5109',
         customer_name:    name,
         customer_email:   email,
         customer_phone:   phone,
